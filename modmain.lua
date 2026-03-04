@@ -54,3 +54,6 @@ modimport("scripts/tbat_linkmod.lua")
 modimport("scripts/tbat_ui.lua")     -- UI相关
 modimport("scripts/tbat_sg.lua")     -- 人物状态表相关
 modimport("scripts/tbat_action.lua") -- 动作
+modimport("scripts/tbat_hook.lua")   -- 本mod钩子
+
+-- require("tbat_debugcommands")        -- 调试用指令

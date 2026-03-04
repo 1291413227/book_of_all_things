@@ -28,6 +28,8 @@ for _, action in pairs(actions) do
     AddAction(_action)
 end
 
+actions = nil -- 释放资源
+
 -- =======================================
 --[[ 动作行为:就是执行动作的人物动画 ]]
 -- =======================================
@@ -44,9 +46,9 @@ AddStategraphActionHandler("wilson_client", ActionHandler(ACTIONS.TBAT_READ, "re
 -- =======================================
 
 -- target是对象,inst是手中或鼠标上物品,doer是做动作的玩家,right是是否为右键
-AddComponentAction("INVENTORY", "inventoryitem", function(inst, doer, actions, right)
-    if inst.prefab == "tbat_adventurers_notes" then
-        table.insert(actions, ACTIONS.TBAT_READ)
+AddComponentAction("INVENTORY", "inventoryitem", function(inst, doer, _actions, right)
+    if inst:HasTag("tbat_note") then
+        table.insert(_actions, ACTIONS.TBAT_READ)
     end
 end)
 

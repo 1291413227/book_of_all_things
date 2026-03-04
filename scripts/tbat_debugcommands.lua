@@ -1,0 +1,14 @@
+-- 生成指定编号的冒险家笔记
+-- function spawnAdventurersNotes(number)
+--     local note = SpawnPrefab("tbat_adventurers_notes")
+--     if note then
+--         note._number:set(number or 1)
+--         local player = ConsoleCommandPlayer()
+--         local pt = ConsoleWorldPosition()
+--         if player and player.components.inventory and note.components.inventoryitem then
+--             player.components.inventory:GiveItem(note)
+--         else
+--             note.Transform:SetPosition(pt.x, 0, pt.z)
+--         end
+--     end
+-- end
