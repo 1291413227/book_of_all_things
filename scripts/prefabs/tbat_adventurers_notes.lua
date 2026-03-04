@@ -1,6 +1,7 @@
 local assets =
 {
     Asset("ANIM", "anim/tbat_adventurers_notes.zip"),
+    Asset("INV_IMAGE", "tbat_item_notes_of_adventurer") -- 支持T控制台显示物品图标
 }
 
 -- local function DisplayNameFn(inst)
@@ -57,6 +58,8 @@ local function makenote(index)
         inst:AddComponent("inspectable")
 
         inst:AddComponent("inventoryitem")
+        -- 支持小木牌绘制
+        inst.components.inventoryitem:ChangeImageName("tbat_item_notes_of_adventurer")
 
         inst:AddComponent("tbat_note")
         inst.components.tbat_note.onreadfn = OnReadBook
