@@ -20,6 +20,7 @@ end
 -- ※万物皆是prefab
 PrefabFiles = {
     "tbat_adventurers_notes", -- 冒险家笔记
+    "tbat_spirit_pool",       -- 幻灵水池
 }
 
 Assets = {
@@ -30,8 +31,8 @@ Assets = {
     Asset("ATLAS", "images/tbat_ui.xml"), -- UI图标
     Asset("IMAGE", "images/tbat_ui.tex"),
 
-    -- Asset("ATLAS", "minimap/tbat_minimap.xml"), -- 小地图贴图集
-    -- Asset("IMAGE", "minimap/tbat_minimap.tex"),
+    Asset("ATLAS", "minimap/tbat_minimap.xml"), -- 小地图贴图集
+    Asset("IMAGE", "minimap/tbat_minimap.tex"),
 }
 
 -- 注册可复制组件
@@ -42,7 +43,7 @@ modimport("scripts/tbat_tool.lua") -- 工具
 TBAT_TOOL.Tool_RegisterInventoryItemAtlas("images/tbat_inventoryimages.xml")
 
 -- 注册小地图图标
--- AddMinimapAtlas("minimap/tbat_minimap.xml")
+AddMinimapAtlas("minimap/tbat_minimap.xml")
 
 -- 判断某些mod是否开启
 modimport("scripts/tbat_linkmod.lua")
@@ -55,5 +56,6 @@ modimport("scripts/tbat_ui.lua")     -- UI相关
 modimport("scripts/tbat_sg.lua")     -- 人物状态表相关
 modimport("scripts/tbat_action.lua") -- 动作
 modimport("scripts/tbat_hook.lua")   -- 本mod钩子
+modimport("scripts/tbat_recipe.lua") -- 配方相关
 
 -- require("tbat_debugcommands")        -- 调试用指令

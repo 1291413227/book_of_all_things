@@ -1,1 +1,1 @@
-<Atlas><Texture filename="tbat_inventoryimages.tex" /><Elements><Element name="tbat_item_notes_of_adventurer.tex" u1="0.0078125" u2="0.9921875" v1="0.0078125" v2="0.9921875" /></Elements></Atlas>
+<Atlas><Texture filename="tbat_inventoryimages.tex" /><Elements><Element name="tbat_spirit_pool.tex" u1="0.00390625" u2="0.49609375" v1="0.0078125" v2="0.9921875" /><Element name="tbat_item_notes_of_adventurer.tex" u1="0.50390625" u2="0.99609375" v1="0.0078125" v2="0.9921875" /></Elements></Atlas>
