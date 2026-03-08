@@ -78,9 +78,42 @@ function Fishable:HookFish(fisherman, ...)
     if self.inst ~= nil and self.inst.prefab == TARGET_CONTAINER_PREFAB then
         -- 让幻灵水池的鱼池组件在被钓鱼杆钓到时也能正常工作
         local fish = _HookFish(self, fisherman, ...)
+        if fish.build == nil then
+            fish.build = "000"
+        end
         self.fishleft = self.maxfish or 10
         return fish
     end
 
     return _HookFish(self, fisherman, ...)
+end
+
+-- ================================================================
+--[[钓竿组件特殊处理，好复杂。。。]]
+-- ================================================================
+local FishingRod = require("components/fishingrod")
+local _OnUpdate = FishingRod.OnUpdate
+local _StopFishing = FishingRod.StopFishing
+local _Hook = FishingRod.Hook
+function FishingRod:OnUpdate(dt, ...)
+    if self:IsFishing() and self.target and self.target.prefab == TARGET_CONTAINER_PREFAB then
+        self.target.components.container.canbeopened = false
+    end
+    _OnUpdate(self, dt, ...)
+end
+
+function FishingRod:StopFishing(...)
+    if self.target and self.target.prefab == TARGET_CONTAINER_PREFAB then
+        self.target.components.container.canbeopened = true
+    end
+    _StopFishing(self, ...)
+end
+
+-- 这样多人钓鱼的时候应该不会彼此覆盖吧,有待实装验证
+function FishingRod:Hook(...)
+    self.target.fisherman = self.fisherman
+    self.target.fishingrod = self.inst.prefab
+    _Hook(self, ...)
+    self.target.fisherman = nil
+    self.target.fishingrod = nil
 end

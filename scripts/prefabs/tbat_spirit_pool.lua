@@ -18,6 +18,60 @@ local function onhammered(inst, worker)
     inst:Remove()
 end
 
+local function GetFishFn(inst)
+    local container = inst.components.container
+    if container == nil then
+        return "weregoose_splash_med2"
+    end
+
+    if inst.fishingrod == nil and inst.fisherman == nil then
+        return "weregoose_splash_med2"
+    end
+
+    if inst.fishingrod ~= "tbat_eq_fantasy_tool" then
+        if inst.fisherman.components.talker then
+            inst.fisherman:DoTaskInTime(20 * FRAMES, function(fisherman)
+                fisherman.components.talker:Say("我大概需要一个美貌与实用并存的工具")
+            end)
+        end
+        return "weregoose_splash_med2"
+    end
+
+    local bait = container:GetItemInSlot(5)
+    if bait == nil then
+        if inst.fisherman.components.talker then
+            inst.fisherman:DoTaskInTime(20 * FRAMES, function(fisherman)
+                fisherman.components.talker:Say("没有诱饵，我不是姜太公")
+            end)
+        end
+        return "weregoose_splash_med2"
+    end
+
+    local fishslots = { 1, 2, 3, 4, 6, 7, 8, 9 }
+    local slot = fishslots[math.random(#fishslots)]
+    local fishitem = container:GetItemInSlot(slot)
+
+    if fishitem == nil then
+        if inst.fisherman.components.talker then
+            inst.fisherman:DoTaskInTime(20 * FRAMES, function(fisherman)
+                fisherman.components.talker:Say("没有饲养鱼或饲养鱼太少")
+            end)
+        end
+        return "weregoose_splash_med2"
+    end
+
+    if bait.components.stackable ~= nil then
+        local consumed = bait.components.stackable:Get(1)
+        if consumed ~= nil then
+            consumed:Remove()
+        end
+    else
+        bait:Remove()
+    end
+
+    return fishitem.prefab
+end
+
 local function commonfn()
     local inst = CreateEntity()
 
@@ -32,6 +86,8 @@ local function commonfn()
     inst.AnimState:SetBuild("tbat_spirit_pool")
     inst.AnimState:SetBank("tbat_spirit_pool")
     inst.AnimState:PlayAnimation("idle", true)
+    inst.AnimState:SetLayer(LAYER_BACKGROUND)
+    inst.AnimState:SetSortOrder(3)
 
     inst.MiniMapEntity:SetIcon("tbat_spirit_pool.tex")
 
@@ -58,7 +114,8 @@ local function commonfn()
     inst:AddComponent("preserver")
     inst.components.preserver:SetPerishRateMultiplier(TUNING.FISH_BOX_PRESERVER_RATE)
 
-    -- inst:AddComponent("fishable")
+    inst:AddComponent("fishable")
+    inst.components.fishable:SetGetFishFn(GetFishFn)
 
     inst:AddComponent("lootdropper")
     inst:AddComponent("workable")
