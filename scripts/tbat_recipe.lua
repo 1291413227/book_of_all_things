@@ -12,3 +12,17 @@ AddRecipe2(
         "FISHING",    -- 钓鱼分类
     }
 )
+
+-- 绿野摇摇椅
+AddRecipe2(
+    "tbat_meadow_rocking_chair",
+    { Ingredient("goldnugget", 1) },
+    TECH.SCIENCE_TWO,
+    {
+        placer = "tbat_meadow_rocking_chair_placer",
+        min_spacing = 0,
+    },
+    {
+        "STRUCTURES",
+    }
+)

@@ -19,9 +19,10 @@ end
 
 -- ※万物皆是prefab
 PrefabFiles = {
-    "tbat_adventurers_notes", -- 冒险家笔记
-    "tbat_spirit_pool",       -- 幻灵水池
-    "tbat_reef_conch",        -- 礁石海螺
+    "tbat_adventurers_notes",    -- 冒险家笔记
+    "tbat_spirit_pool",          -- 幻灵水池
+    "tbat_reef_conch",           -- 礁石海螺
+    "tbat_meadow_rocking_chair", -- 绿野摇摇椅
 }
 
 Assets = {
