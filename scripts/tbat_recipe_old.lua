@@ -71,3 +71,17 @@ AddRecipe2(
         "TBAT_RECIPE_FILTER_DECORATION",
     }
 )
+
+-- 织梦桃云树
+AddRecipe2(
+    "tbat_dreamweaver_peachcloud_tree",
+    { Ingredient("tbat_food_fantasy_peach_seeds", 10) },
+    TECH.TBAT_THE_TREE_OF_ALL_THINGS_ONE,
+    {
+        placer = "tbat_dreamweaver_peachcloud_tree_placer",
+        min_spacing = 0,
+    },
+    {
+        "TBAT_RECIPE_FILTER_DECORATION",
+    }
+)

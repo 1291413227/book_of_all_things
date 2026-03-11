@@ -65,3 +65,18 @@ AddRecipe2(
         "STRUCTURES",
     }
 )
+
+-- 织梦桃云树
+AddRecipe2(
+    "tbat_dreamweaver_peachcloud_tree",
+    { Ingredient("goldnugget", 10) },
+    TECH.SCIENCE_TWO,
+    {
+        placer = "tbat_dreamweaver_peachcloud_tree_placer",
+        min_spacing = 0,
+    },
+    {
+        "STRUCTURES",
+        "DECOR",
+    }
+)

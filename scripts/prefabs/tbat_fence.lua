@@ -6,7 +6,7 @@ local wall_prefabs =
     "collapse_small",
 }
 
-local FENCE_LOOT = { "twigs" }
+local LOOT = TUNING.BOOKOFALLTHINGS.OLD_TBAT and { "tbat_material_miragewood" } or { "twigs" }
 
 SetSharedLootTable("fence_junk",
     {
@@ -509,11 +509,11 @@ local function MakeWall(name, anims)
 
         inst:AddComponent("lootdropper")
 
-        inst.components.lootdropper:SetLoot(FENCE_LOOT)
+        inst.components.lootdropper:SetLoot(LOOT)
 
         inst:AddComponent("workable")
         inst.components.workable:SetWorkAction(ACTIONS.HAMMER)
-        inst.components.workable:SetWorkLeft(3)
+        inst.components.workable:SetWorkLeft(9)
         inst.components.workable:SetOnFinishCallback(onhammered)
         inst.components.workable:SetOnWorkCallback(onworked)
 
