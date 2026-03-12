@@ -69,7 +69,7 @@ AddRecipe2(
 -- 织梦桃云树
 AddRecipe2(
     "tbat_dreamweaver_peachcloud_tree",
-    { Ingredient("goldnugget", 10) },
+    { Ingredient("goldnugget", 1) },
     TECH.SCIENCE_TWO,
     {
         placer = "tbat_dreamweaver_peachcloud_tree_placer",
@@ -78,5 +78,19 @@ AddRecipe2(
     {
         "STRUCTURES",
         "DECOR",
+    }
+)
+
+-- 月光记忆晶泉
+AddRecipe2(
+    "tbat_moonlit_memory_crystal_spring",
+    { Ingredient("goldnugget", 1), },
+    TECH.SCIENCE_TWO,
+    {
+        placer = "tbat_moonlit_memory_crystal_spring_placer",
+        min_spacing = 0,
+    },
+    {
+        "STRUCTURES",
     }
 )

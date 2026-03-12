@@ -19,14 +19,15 @@ end
 
 -- ※万物皆是prefab
 PrefabFiles = {
-    "tbat_free_skins",                  -- 免费皮肤
-    "tbat_adventurers_notes",           -- 冒险家笔记
-    "tbat_spirit_pool",                 -- 幻灵水池
-    "tbat_reef_conch",                  -- 礁石海螺
-    "tbat_meadow_rocking_chair",        -- 绿野摇摇椅
-    "tbat_pathway_slab",                -- 小径石板
-    "tbat_fence",                       -- 栅栏
-    "tbat_dreamweaver_peachcloud_tree", -- 织梦桃云树
+    "tbat_free_skins",                    -- 免费皮肤
+    "tbat_adventurers_notes",             -- 冒险家笔记
+    "tbat_spirit_pool",                   -- 幻灵水池
+    "tbat_reef_conch",                    -- 礁石海螺
+    "tbat_meadow_rocking_chair",          -- 绿野摇摇椅
+    "tbat_pathway_slab",                  -- 小径石板
+    "tbat_fence",                         -- 栅栏
+    "tbat_dreamweaver_peachcloud_tree",   -- 织梦桃云树
+    "tbat_moonlit_memory_crystal_spring", -- 月光记忆晶泉
 }
 
 Assets = {

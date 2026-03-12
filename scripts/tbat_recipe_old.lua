@@ -85,3 +85,21 @@ AddRecipe2(
         "TBAT_RECIPE_FILTER_DECORATION",
     }
 )
+
+-- 月光记忆晶泉
+AddRecipe2(
+    "tbat_moonlit_memory_crystal_spring",
+    {
+        Ingredient("tbat_material_memory_crystal", 60),
+        Ingredient("tbat_item_crystal_bubble", 2),
+        Ingredient("tbat_plant_coconut_cat_fruit", 1),
+    },
+    TECH.TBAT_THE_TREE_OF_ALL_THINGS_ONE,
+    {
+        placer = "tbat_moonlit_memory_crystal_spring_placer",
+        min_spacing = 0,
+    },
+    {
+        "TBAT_RECIPE_FILTER_DECORATION",
+    }
+)
