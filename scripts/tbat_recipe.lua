@@ -110,3 +110,35 @@ AddRecipe2(
         "STRUCTURES",
     }
 )
+
+-- 晓光玫瑰藤蔓
+AddRecipe2(
+    "tbat_vine_rose",
+    {
+        Ingredient("goldnugget", 1),
+    },
+    TECH.SCIENCE_TWO,
+    {
+        placer = "tbat_vine_rose_placer",
+        min_spacing = 0,
+    },
+    {
+        "STRUCTURES",
+    }
+)
+
+-- 幻海珊瑚
+AddRecipe2(
+    "tbat_dreamsea_coral",
+    {
+        Ingredient("goldnugget", 1),
+    },
+    TECH.SCIENCE_TWO,
+    {
+        placer = "tbat_dreamsea_coral_placer",
+        min_spacing = 0,
+    },
+    {
+        "STRUCTURES",
+    }
+)

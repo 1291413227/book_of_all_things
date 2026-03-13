@@ -119,3 +119,35 @@ AddRecipe2(
         "TBAT_RECIPE_FILTER_DECORATION",
     }
 )
+
+-- 晓光玫瑰藤蔓
+AddRecipe2(
+    "tbat_vine_rose",
+    {
+        Ingredient("tbat_food_valorbush", 2),
+    },
+    TECH.TBAT_THE_TREE_OF_ALL_THINGS_ONE,
+    {
+        placer = "tbat_vine_rose_placer",
+        min_spacing = 0,
+    },
+    {
+        "TBAT_RECIPE_FILTER_DECORATION",
+    }
+)
+
+-- 幻海珊瑚
+AddRecipe2(
+    "tbat_dreamsea_coral",
+    {
+        Ingredient("tbat_material_memory_crystal", 6),
+    },
+    TECH.TBAT_THE_TREE_OF_ALL_THINGS_ONE,
+    {
+        placer = "tbat_dreamsea_coral_placer",
+        min_spacing = 0,
+    },
+    {
+        "TBAT_RECIPE_FILTER_DECORATION",
+    }
+)

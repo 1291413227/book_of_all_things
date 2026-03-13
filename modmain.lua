@@ -20,6 +20,7 @@ end
 -- ※万物皆是prefab
 PrefabFiles = {
     "tbat_free_skins",                    -- 免费皮肤
+    "tbat_permissions_skins",             -- 权限皮肤
     "tbat_adventurers_notes",             -- 冒险家笔记
     "tbat_spirit_pool",                   -- 幻灵水池
     "tbat_reef_conch",                    -- 礁石海螺
@@ -29,6 +30,8 @@ PrefabFiles = {
     "tbat_dreamweaver_peachcloud_tree",   -- 织梦桃云树
     "tbat_moonlit_memory_crystal_spring", -- 月光记忆晶泉
     "tbat_raccoon_sign",                  -- 小浣熊木牌
+    "tbat_vine_rose",                     -- 晓光玫瑰藤蔓
+    "tbat_dreamsea_coral",                -- 幻海珊瑚
 }
 
 Assets = {

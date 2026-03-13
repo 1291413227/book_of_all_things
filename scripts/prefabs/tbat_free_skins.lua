@@ -159,7 +159,8 @@ BOOKOFALLTHINGS.MakeItemSkin(
     }
 )
 
-local skins = {
+-- 小浣熊木牌-5款免费皮肤
+local sign_skins = {
     "town",
     "street",
     "kitchen",
@@ -167,7 +168,7 @@ local skins = {
     "restaurant",
 }
 
-for i, v in ipairs(skins) do
+for i, v in ipairs(sign_skins) do
     BOOKOFALLTHINGS.MakeItemSkinDefaultImage("tbat_raccoon_sign", "images/tbat_inventoryimages.xml", "tbat_raccoon_sign")
     BOOKOFALLTHINGS.MakeItemSkin(
         "tbat_raccoon_sign",
@@ -191,3 +192,78 @@ for i, v in ipairs(skins) do
         }
     )
 end
+
+-- 晓光玫瑰藤蔓-7款免费皮肤
+local vine_skins = {
+    "osmanthus",
+    "spike",
+    "plumsnow",
+    "forestsong",
+    "pearl",
+    "foxmaple",
+    "autumnmaple",
+}
+
+for i, v in ipairs(vine_skins) do
+    BOOKOFALLTHINGS.MakeItemSkinDefaultImage("tbat_vine_rose", "images/tbat_inventoryimages.xml", "tbat_vine_rose")
+    BOOKOFALLTHINGS.MakeItemSkin(
+        "tbat_vine_rose",
+        "tbat_vine_" .. v,
+        {
+            name = STRINGS.TBAT_STRINGS["TBAT_VINE_" .. string.upper(v) .. "_NAME"],
+            des = "None",
+            rarity = "Complimentary",
+            atlas = "images/tbat_inventoryimages.xml",
+            image = "tbat_vine_" .. v,
+            build = "tbat_vine_" .. v,
+            bank = "tbat_vine_" .. v,
+            basebuild = "tbat_vine_rose",
+            basebank = "tbat_vine_rose",
+            assets = {
+                Asset("ANIM", "anim/tbat_vine_" .. v .. ".zip"),
+            },
+        }
+    )
+end
+
+-- 幻海珊瑚-幻海浮藻
+BOOKOFALLTHINGS.MakeItemSkinDefaultImage("tbat_dreamsea_coral", "images/tbat_inventoryimages.xml", "tbat_dreamsea_coral")
+BOOKOFALLTHINGS.MakeItemSkin(
+    "tbat_dreamsea_coral",
+    "tbat_dreamsea_coral_skin1",
+    {
+        name = STRINGS.TBAT_STRINGS.TBAT_DREAMSEA_CORAL_SKIN1_NAME,
+        des = "None",
+        rarity = "Complimentary",
+        atlas = "images/tbat_inventoryimages.xml",
+        image = "tbat_dreamsea_coral_skin1",
+        build = "tbat_dreamsea_coral_skin1",
+        bank = "tbat_dreamsea_coral_skin1",
+        basebuild = "tbat_dreamsea_coral",
+        basebank = "tbat_dreamsea_coral",
+        assets = {
+            Asset("ANIM", "anim/tbat_dreamsea_coral_skin1.zip"),
+        },
+    }
+)
+
+-- 幻海珊瑚-幻海凝珠
+BOOKOFALLTHINGS.MakeItemSkinDefaultImage("tbat_dreamsea_coral", "images/tbat_inventoryimages.xml", "tbat_dreamsea_coral")
+BOOKOFALLTHINGS.MakeItemSkin(
+    "tbat_dreamsea_coral",
+    "tbat_dreamsea_coral_skin2",
+    {
+        name = STRINGS.TBAT_STRINGS.TBAT_DREAMSEA_CORAL_SKIN2_NAME,
+        des = "None",
+        rarity = "Complimentary",
+        atlas = "images/tbat_inventoryimages.xml",
+        image = "tbat_dreamsea_coral_skin2",
+        build = "tbat_dreamsea_coral_skin2",
+        bank = "tbat_dreamsea_coral_skin2",
+        basebuild = "tbat_dreamsea_coral",
+        basebank = "tbat_dreamsea_coral",
+        assets = {
+            Asset("ANIM", "anim/tbat_dreamsea_coral_skin2.zip"),
+        },
+    }
+)
