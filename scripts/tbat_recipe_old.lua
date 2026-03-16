@@ -1,3 +1,12 @@
+-- 本mod自己的科技靠近指定建筑或者物品解锁
+AddPrototyperDef("tbat_rose_twin_goose", { -- 玫瑰双生鹅
+    icon_atlas = "images/tbat_crafting_menu_icons.xml",
+    icon_image = "station_tbat_rose_twin_goose.tex",
+    is_crafting_station = true,
+    action_str = "TBAT_TWIN_GOOSE",
+    filter_text = STRINGS.UI.CRAFTING_FILTERS.TBAT_TWIN_GOOSE,
+})
+
 -- 幻灵水池
 AddRecipe2(
     "tbat_spirit_pool",
@@ -197,5 +206,23 @@ AddRecipe2(
     },
     {
         "TBAT_RECIPE_FILTER_DECORATION",
+    }
+)
+
+-- 幻灵水池
+AddRecipe2(
+    "tbat_rose_twin_goose",
+    {
+        Ingredient("tbat_plant_valorbush", 9),
+        Ingredient("tbat_material_starshard_dust", 9),
+        Ingredient("tbat_material_emerald_feather", 2)
+    },
+    TECH.TBAT_THE_TREE_OF_ALL_THINGS_ONE,
+    {
+        placer = "tbat_rose_twin_goose_placer",
+        min_spacing = 0,
+    },
+    {
+        "TBAT_RECIPE_FILTER_BUILDING",
     }
 )

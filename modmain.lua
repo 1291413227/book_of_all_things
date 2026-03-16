@@ -31,12 +31,16 @@ PrefabFiles = {
     "tbat_moonlit_memory_crystal_spring", -- 月光记忆晶泉
     "tbat_vine_rose",                     -- 晓光玫瑰藤蔓
     "tbat_dreamsea_coral",                -- 幻海珊瑚
+    "tbat_rose_twin_goose",               -- 玫瑰双生鹅
 }
 
 Assets = {
     Asset("ATLAS", "images/tbat_inventoryimages.xml"), -- 物品栏贴图集
     Asset("IMAGE", "images/tbat_inventoryimages.tex"),
     Asset("ATLAS_BUILD", "images/tbat_inventoryimages.xml", 256),
+
+    Asset("ATLAS", "images/tbat_crafting_menu_icons.xml"), -- 科技栏图标
+    Asset("IMAGE", "images/tbat_crafting_menu_icons.tex"),
 
     Asset("ATLAS", "images/tbat_ui.xml"), -- UI图集
     Asset("IMAGE", "images/tbat_ui.tex"),
@@ -47,7 +51,7 @@ Assets = {
     Asset("ATLAS", "minimap/tbat_minimap.xml"), -- 小地图贴图集
     Asset("IMAGE", "minimap/tbat_minimap.tex"),
 
-    Asset("ANIM", "anim/ui_tbat_spirit_pool_3x3.zip"),   -- 幻灵水池UI动画
+    Asset("ANIM", "anim/ui_tbat_spirit_pool_3x3.zip"), -- 幻灵水池UI动画
 }
 
 -- 注册可复制组件
@@ -67,6 +71,7 @@ modimport("scripts/tbat_linkmod.lua")
 -- modimport("scripts/tbat_globalfn.lua")
 
 -- 资源文件导入
+modimport("scripts/tbat_tech.lua")           -- 科技相关-要在制作配方前面
 modimport("scripts/tbat_ui.lua")             -- UI相关
 modimport("scripts/tbat_sg.lua")             -- 人物状态表相关
 modimport("scripts/tbat_action.lua")         -- 动作
