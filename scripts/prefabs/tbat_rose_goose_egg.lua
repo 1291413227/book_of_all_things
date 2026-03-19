@@ -14,7 +14,7 @@ local function RefreshTwinGooseState(inst, data)
         return
     end
 
-    local level = world.tbat_twin_goose_level:value() or 0
+    local level = world.GetTBATTwinGooseLevel ~= nil and world:GetTBATTwinGooseLevel() or 0
     if level < 2 then
         inst.components.container_proxy:SetCanBeOpened(false)
     else

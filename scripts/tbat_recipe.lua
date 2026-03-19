@@ -8,8 +8,8 @@ AddPrototyperDef("tbat_rose_twin_goose", { -- 玫瑰双生鹅
 })
 
 local function CanPlaceRoseTwinGoose(pt, rot)
-    if TheWorld ~= nil and TheWorld.tbat_twin_goose_level ~= nil then
-        return TheWorld.tbat_twin_goose_level:value() < 1
+    if TheWorld ~= nil and TheWorld.GetTBATTwinGooseLevel ~= nil then
+        return TheWorld:GetTBATTwinGooseLevel() < 1
     end
 
     return TheSim == nil or TheSim:FindFirstEntityWithTag("tbat_rose_twin_goose") == nil

@@ -250,11 +250,15 @@ function ContainerWidget:Open(container, doer, ...)
 
             -- 按钮是否启用
             if buttoninfo.validfn ~= nil then
-                if buttoninfo.validfn(container, doer, self["tbat_button" .. i]) then
-                    self["tbat_button" .. i]:Enable()
-                else
-                    self["tbat_button" .. i]:Disable()
+                local function refresh_button_state()
+                    if buttoninfo.validfn(container, doer, self["tbat_button" .. i]) then
+                        self["tbat_button" .. i]:Enable()
+                    else
+                        self["tbat_button" .. i]:Disable()
+                    end
                 end
+                refresh_button_state()
+                self["tbat_button" .. i].inst:ListenForEvent("tbat_level_change", refresh_button_state, TheWorld)
             end
 
             if TheInput:ControllerAttached() or isreadonlycontainer then
@@ -358,8 +362,29 @@ local function GetTwinGooseLevel(goose)
     return level
 end
 
+local function GetWorldTwinGooseLevelComponent(world)
+    if world == nil or world.net == nil or world.net.components == nil then
+        return nil
+    end
+    return world.net.components.tbat_twin_goose_level
+end
+
+local function GetWorldTwinGooseLevel(world)
+    local component = GetWorldTwinGooseLevelComponent(world)
+    return component ~= nil and component:GetLevel() or 0
+end
+
+local function SetWorldTwinGooseLevel(world, level, force_dirty)
+    local component = GetWorldTwinGooseLevelComponent(world)
+    if component ~= nil and component.SetLevel ~= nil then
+        component:SetLevel(level, force_dirty)
+        return component:GetLevel()
+    end
+    return 0
+end
+
 local function RefreshTwinGooseState(world)
-    if world == nil or world.tbat_twin_goose_level == nil then
+    if world == nil then
         return nil
     end
 
@@ -369,40 +394,33 @@ local function RefreshTwinGooseState(world)
     end
 
     world._tbat_rose_twin_goose = goose
-    world.tbat_twin_goose_level:set(GetTwinGooseLevel(goose))
-    world:PushEvent("tbat_refresh_twin_goose_state", { level = world.tbat_twin_goose_level:value() })
+    local synced_level = SetWorldTwinGooseLevel(world, GetTwinGooseLevel(goose))
+    world:PushEvent("tbat_refresh_twin_goose_state", { level = synced_level })
 
     return goose
 end
 
-AddPrefabPostInit("world", function(inst)
-    inst.tbat_twin_goose_level = net_smallbyte(inst.GUID, "world.tbat_twin_goose_level")
+local function AddTwinGooseLevelNetComponent(inst)
+    if inst.components.tbat_twin_goose_level == nil then
+        inst:AddComponent("tbat_twin_goose_level")
+    end
+end
 
-    if not TheWorld.ismastersim then
+AddPrefabPostInit("forest_network", AddTwinGooseLevelNetComponent)
+AddPrefabPostInit("cave_network", AddTwinGooseLevelNetComponent)
+
+AddPrefabPostInit("world", function(inst)
+    inst.GetTBATTwinGooseLevel = GetWorldTwinGooseLevel
+    inst.SetTBATTwinGooseLevel = SetWorldTwinGooseLevel
+    inst._tbat_refresh_twin_goose_state = RefreshTwinGooseState
+
+    if not inst.ismastersim then
         return
     end
 
-    inst._tbat_refresh_twin_goose_state = RefreshTwinGooseState
-    inst.tbat_twin_goose_level:set(0)
-    local oldOnSave = inst.OnSave
-    inst.OnSave = function(_inst, data)
-        RefreshTwinGooseState(inst)
-        data.tbat_twin_goose_level = inst.tbat_twin_goose_level:value()
-        if oldOnSave ~= nil then
-            oldOnSave(_inst, data)
-        end
-    end
-
-    local oldOnLoad = inst.OnLoad
-    inst.OnLoad = function(_inst, data)
-        if data ~= nil and data.tbat_twin_goose_level ~= nil then
-            inst.tbat_twin_goose_level:set(data.tbat_twin_goose_level)
-        end
-        if oldOnLoad ~= nil then
-            oldOnLoad(_inst, data)
-        end
+    inst:ListenForEvent("ms_playeractivated", function()
         inst:DoTaskInTime(0, inst._tbat_refresh_twin_goose_state)
-    end
+    end)
 
     inst:DoTaskInTime(0, inst._tbat_refresh_twin_goose_state)
 end)

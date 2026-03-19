@@ -109,7 +109,7 @@ local function ApplyTwinGooseProgress(inst, level, exp)
         inst:RemoveTag(TWIN_GOOSE_LEVEL2_TAG)
     end
 
-    if TheWorld ~= nil and TheWorld._tbat_rose_twin_goose == inst then
+    if TheWorld ~= nil and TheWorld.ismastersim and TheWorld._tbat_rose_twin_goose == inst then
         RefreshWorldTwinGooseState()
     end
 end
@@ -142,9 +142,7 @@ local function RegisterTwinGoose(inst)
     end
 
     world._tbat_rose_twin_goose = inst
-    if world.tbat_twin_goose_level ~= nil then
-        world.tbat_twin_goose_level:set(inst:GetTwinGooseLevel())
-    end
+    RefreshWorldTwinGooseState()
 
     return true
 end

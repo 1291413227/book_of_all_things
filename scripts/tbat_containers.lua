@@ -81,6 +81,13 @@ local tbat_rose_twin_goose_table = {
     "tbat_rose_twin_goose_decorate_container",
 }
 
+local function GetTwinGooseLevel()
+    if TheWorld ~= nil and TheWorld.GetTBATTwinGooseLevel ~= nil then
+        return TheWorld:GetTBATTwinGooseLevel()
+    end
+    return 0
+end
+
 local function validfn(container, doer, button, num)
     local prefab_name = tbat_rose_twin_goose_table[num]
     if prefab_name == container.prefab then
@@ -98,8 +105,9 @@ local function validfn(container, doer, button, num)
         end
         return false
     else
+        local level = GetTwinGooseLevel()
         if (prefab_name == "tbat_rose_twin_goose_material_container" or prefab_name == "tbat_rose_twin_goose_decorate_container")
-            and TheWorld.tbat_twin_goose_level:value() < 2 then
+            and level < 2 then
             if button and button.floating_image then
                 button.floating_image:SetTexture("images/tbat_hud.xml", "lock.tex")
             end

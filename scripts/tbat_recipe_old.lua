@@ -8,8 +8,8 @@ AddPrototyperDef("tbat_rose_twin_goose", { -- 玫瑰双生鹅
 })
 
 local function CanPlaceRoseTwinGoose(pt, rot)
-    if TheWorld ~= nil and TheWorld.tbat_twin_goose_level ~= nil then
-        return TheWorld.tbat_twin_goose_level:value() < 1
+    if TheWorld ~= nil and TheWorld.GetTBATTwinGooseLevel ~= nil then
+        return TheWorld:GetTBATTwinGooseLevel() < 1
     end
 
     return TheSim == nil or TheSim:FindFirstEntityWithTag("tbat_rose_twin_goose") == nil
@@ -221,7 +221,7 @@ AddRecipe2(
 AddRecipe2(
     "tbat_rose_twin_goose",
     {
-        Ingredient("tbat_plant_valorbush", 9),
+        Ingredient("tbat_plant_valorbush_kit", 9),
         Ingredient("tbat_material_starshard_dust", 9),
         Ingredient("tbat_material_emerald_feather", 2)
     },
@@ -240,7 +240,7 @@ AddRecipe2(
 AddRecipe2(
     "tbat_rose_goose_egg",
     {
-        Ingredient("tbat_plant_valorbush", 2),
+        Ingredient("tbat_plant_valorbush_kit", 2),
     },
     TECH.TBAT_TWIN_GOOSE_TECH_ONE,
     {
