@@ -178,7 +178,7 @@ local function commonfn()
     inst.AnimState:SetLayer(LAYER_BACKGROUND)
     inst.AnimState:SetSortOrder(3)
 
-    inst.Transform:SetScale(0.5, 0.5, 1)
+    -- inst.Transform:SetScale(0.5, 0.5, 1)
 
     inst.MiniMapEntity:SetIcon("tbat_spirit_pool.tex")
 
@@ -238,4 +238,4 @@ end
 
 return
     Prefab("tbat_spirit_pool", pondcrab, assets, prefabs),
-    MakePlacer("tbat_spirit_pool_placer", "tbat_spirit_pool", "tbat_spirit_pool", "idle", nil, nil, nil, 0.5)
+    MakePlacer("tbat_spirit_pool_placer", "tbat_spirit_pool", "tbat_spirit_pool", "idle")
