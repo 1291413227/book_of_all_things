@@ -170,13 +170,13 @@ local function commonfn()
     inst.entity:AddMiniMapEntity()
     inst.entity:AddNetwork()
 
-    MakePondPhysics(inst, 3)
+    MakePondPhysics(inst, 2.1)
 
     inst.AnimState:SetBuild("tbat_spirit_pool")
     inst.AnimState:SetBank("tbat_spirit_pool")
     inst.AnimState:PlayAnimation("idle", true)
-    inst.AnimState:SetLayer(LAYER_BACKGROUND)
-    inst.AnimState:SetSortOrder(3)
+    -- inst.AnimState:SetLayer(LAYER_BACKGROUND)
+    -- inst.AnimState:SetSortOrder(3)
 
     -- inst.Transform:SetScale(0.5, 0.5, 1)
 
