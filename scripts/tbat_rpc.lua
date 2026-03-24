@@ -14,6 +14,7 @@ local function FormatChatMessage(message, show_realtime)
     return message
 end
 
+-- 客户端触发聊天栏显示消息
 AddClientModRPCHandler("BOOKOFALLTHINGS", "ChatMessage", function(sender_name, message, icon, iconbg, show_realtime)
     if ChatHistory == nil or ChatTypes == nil or message == nil then
         return
@@ -99,6 +100,7 @@ local function reduce(item, needed_count)
     end
 end
 
+-- 萌宠洗衣机触发工作的服务端逻辑
 AddModRPCHandler("BOOKOFALLTHINGS", "UsePetWasher", function(player, container, status)
     if container.components.container:IsOpenedBy(player) then
         container.components.container:Close(player)

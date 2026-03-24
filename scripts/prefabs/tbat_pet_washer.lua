@@ -42,18 +42,21 @@ local function stopworking(inst)
         inst.components.container.canbeopened = true
     end
 
-    if TheWorld ~= nil and TheWorld.ismastersim and inst._tbat_working_userid ~= nil then
-        SendModRPCToClient(
-            GetClientModRPC("BOOKOFALLTHINGS", "ChatMessage"),
-            inst._tbat_working_userid,
-            STRINGS.NAMES.TBAT_PET_WASHER or "萌宠洗衣机",
-            FINISH_CHAT_MESSAGE,
-            FINISH_CHAT_ICON,
-            FINISH_CHAT_ICON_BG,
-            true
-        )
+    -- if TheWorld ~= nil and TheWorld.ismastersim and inst._tbat_working_userid ~= nil then
+    --     SendModRPCToClient(
+    --         GetClientModRPC("BOOKOFALLTHINGS", "ChatMessage"),
+    --         inst._tbat_working_userid,
+    --         STRINGS.NAMES.TBAT_PET_WASHER or "萌宠洗衣机",
+    --         FINISH_CHAT_MESSAGE,
+    --         FINISH_CHAT_ICON,
+    --         FINISH_CHAT_ICON_BG,
+    --         true
+    --     )
+    -- end
+    -- inst._tbat_working_userid = nil
+    if TheWorld ~= nil and TheWorld.ismastersim then
+        TheNet:Announce("[萌宠洗衣机温馨提示] 衣服洗好啦，快来收走吧。")
     end
-    inst._tbat_working_userid = nil
 
     inst.AnimState:PlayAnimation("use_pst")
     inst.AnimState:PushAnimation("closed", true)
