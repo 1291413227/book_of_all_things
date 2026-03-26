@@ -555,12 +555,34 @@ if GLOBAL.BOOKOFEVERYTHING_SETS.ENABLEDMODS["old_tbat"] and Wiki then
 end
 
 -------------------------------------------------------------------------------
--- 私有皮肤防破解补丁: 只拦截 need_lock_skin 里的皮肤，其他皮肤继续走原逻辑
+-- 私有皮肤防破解补丁
+-- 只拦截 need_lock_skin 里的皮肤，其他皮肤继续走原逻辑
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+-- hook 基础设施
 -------------------------------------------------------------------------------
 local protected_prev = {}
 local protected_base = {}
 local protected_busy = {}
 local protected_wrappers = {}
+
+-------------------------------------------------------------------------------
+-- 核心防破解: ownership / recipe / reskin 权限拦截
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+-- 兼容破解补丁所需的短时上下文
+-------------------------------------------------------------------------------
+local protected_reskin_context = {}
+local PROTECTED_RESKIN_CONTEXT_TTL = 1
+
+local function HasProtectedUserid(userid)
+    return type(userid) == "string" and userid ~= ""
+end
+
+local function GetProtectedContextNow()
+    return type(GetTime) == "function" and GetTime() or 0
+end
 
 local function RememberProtectedBase(key, fn)
     if fn ~= nil and fn ~= protected_wrappers[key] and protected_base[key] == nil then
@@ -601,6 +623,9 @@ local function CallProtectedPrevious(key, fallback, ...)
     return r1, r2, r3, r4, r5, r6
 end
 
+-------------------------------------------------------------------------------
+-- 核心防破解: ownership / recipe / reskin 权限拦截
+-------------------------------------------------------------------------------
 local function ProtectedClientHasSkin(skinname)
     return TbatIsProtectedSkin(skinname) and TbatSkinCheckFn(nil, skinname) or false
 end
@@ -609,17 +634,66 @@ local function ProtectedServerHasSkin(userid, skinname)
     return TbatIsProtectedSkin(skinname) and TbatSkinCheckClientFn(nil, userid, skinname) or false
 end
 
-local function PrefabHasProtectedSkin(prefab)
-    local skin_list = PREFAB_SKINS and PREFAB_SKINS[prefab]
-    if skin_list == nil then
-        return false
-    end
-    for i = 1, #skin_list do
-        if TbatIsProtectedSkin(skin_list[i]) then
-            return true
+-------------------------------------------------------------------------------
+-- 兼容破解补丁: 某些补丁会在 reskin_tool -> Sim:ReskinEntity 时清空 userid
+-------------------------------------------------------------------------------
+
+local function PruneProtectedReskinContext(now)
+    for guid, data in pairs(protected_reskin_context) do
+        if data == nil or type(data.expires) ~= "number" or data.expires <= now then
+            protected_reskin_context[guid] = nil
         end
     end
-    return false
+end
+
+local function RememberProtectedReskinUserid(guid, userid)
+    if guid == nil or not HasProtectedUserid(userid) then
+        return
+    end
+
+    local now = GetProtectedContextNow()
+    PruneProtectedReskinContext(now)
+    protected_reskin_context[guid] = {
+        userid = userid,
+        expires = now + PROTECTED_RESKIN_CONTEXT_TTL,
+    }
+end
+
+local function RememberProtectedReskinContextForTarget(target, userid)
+    if target == nil then
+        return
+    end
+
+    RememberProtectedReskinUserid(target.GUID, userid)
+
+    if target.prefab == "wormhole"
+        and target.components ~= nil
+        and target.components.teleporter ~= nil
+        and target.components.teleporter.targetTeleporter ~= nil then
+        RememberProtectedReskinUserid(target.components.teleporter.targetTeleporter.GUID, userid)
+    end
+end
+
+local function ResolveProtectedReskinUserid(guid, userid)
+    if HasProtectedUserid(userid) then
+        return userid
+    end
+    if guid == nil then
+        return userid
+    end
+
+    local now = GetProtectedContextNow()
+    local data = protected_reskin_context[guid]
+    if data ~= nil
+        and type(data.expires) == "number"
+        and data.expires > now
+        and HasProtectedUserid(data.userid) then
+        protected_reskin_context[guid] = nil
+        return data.userid
+    end
+
+    protected_reskin_context[guid] = nil
+    return userid
 end
 
 local function ResolveReskinToolTarget(target, caster)
@@ -628,85 +702,6 @@ local function ResolveReskinToolTarget(target, caster)
         target = target.reskin_tool_target_redirect
     end
     return target
-end
-
-local function CanUseReskinToolSkin(userid, skinname)
-    if userid == nil or userid == "" or skinname == nil or skinname == "" then
-        return false
-    end
-    if PREFAB_SKINS_SHOULD_NOT_SELECT[skinname] then
-        return false
-    end
-    if SKINS_EVENTLOCK[skinname] ~= nil and not IsSpecialEventActive(SKINS_EVENTLOCK[skinname]) then
-        return false
-    end
-    return TheInventory ~= nil and TheInventory:CheckClientOwnership(userid, skinname) or false
-end
-
-local function FindNextReskinToolSkin(userid, target, cached_skin)
-    local skin_list = PREFAB_SKINS and PREFAB_SKINS[target.prefab]
-    if skin_list == nil or #skin_list == 0 then
-        return nil
-    end
-
-    local must_have, must_not_have
-    if target.ReskinToolFilterFn ~= nil then
-        must_have, must_not_have = target:ReskinToolFilterFn()
-    end
-
-    local curr_skin = target.skinname
-    local found = 0
-    if cached_skin ~= nil then
-        for i = 1, #skin_list do
-            if skin_list[i] == cached_skin then
-                found = i
-                break
-            end
-        end
-    end
-
-    for offset = 1, #skin_list do
-        local i = ((found + offset - 1) % #skin_list) + 1
-        local skinname = skin_list[i]
-        if (must_have == nil or StringContainsAnyInArray(skinname, must_have))
-            and (must_not_have == nil or not StringContainsAnyInArray(skinname, must_not_have))
-            and skinname ~= curr_skin
-            and CanUseReskinToolSkin(userid, skinname) then
-            return skinname
-        end
-    end
-
-    return nil
-end
-
-local function FixProtectedReskinToolCache(tool, caster, target)
-    if tool == nil or tool._cached_reskinname == nil then
-        return
-    end
-
-    target = ResolveReskinToolTarget(target, caster)
-    if target == nil or target.prefab == nil or not PrefabHasProtectedSkin(target.prefab) then
-        return
-    end
-
-    local userid = (tool.parent and tool.parent.userid) or (caster and caster.userid) or ""
-    if userid == "" then
-        return
-    end
-
-    local cached_skin = tool._cached_reskinname[target.prefab]
-    if cached_skin == nil or not TbatIsProtectedSkin(cached_skin) or ProtectedServerHasSkin(userid, cached_skin) then
-        return
-    end
-
-    tool._cached_reskinname[target.prefab] = FindNextReskinToolSkin(userid, target, cached_skin)
-end
-
-local function IsSkinSelectableForPlayer(skinname)
-    if TbatIsProtectedSkin(skinname) then
-        return ProtectedClientHasSkin(skinname)
-    end
-    return TheInventory ~= nil and TheInventory:CheckOwnership(skinname) or false
 end
 
 protected_wrappers.CheckOwnership = function(i, name, ...)
@@ -753,78 +748,9 @@ protected_wrappers.ValidateRecipeSkinRequest = function(user_id, prefab_name, sk
     end, user_id, prefab_name, skin)
 end
 
-protected_wrappers.GetNextOwnedSkin = function(prefab, cur_skin)
-    if not PrefabHasProtectedSkin(prefab) then
-        return CallProtectedPrevious("GetNextOwnedSkin", function()
-            return nil
-        end, prefab, cur_skin)
-    end
-
-    local new_skin = nil
-    local skin_list = PREFAB_SKINS[prefab]
-    if skin_list ~= nil then
-        local found = 0
-        if cur_skin ~= nil then
-            for i = 1, #skin_list do
-                if skin_list[i] == cur_skin then
-                    found = i
-                    break
-                end
-            end
-        end
-        for i = found + 1, #skin_list do
-            local skinname = skin_list[i]
-            if not PREFAB_SKINS_SHOULD_NOT_SELECT[skinname]
-                and (SKINS_EVENTLOCK[skinname] == nil or IsSpecialEventActive(SKINS_EVENTLOCK[skinname]))
-                and IsSkinSelectableForPlayer(skinname) then
-                new_skin = skinname
-                break
-            end
-        end
-    end
-    if not new_skin and PREFAB_SKINS_SHOULD_NOT_SELECT[prefab] then
-        new_skin = cur_skin
-    end
-    return new_skin
-end
-
-protected_wrappers.GetPrevOwnedSkin = function(prefab, cur_skin)
-    if not PrefabHasProtectedSkin(prefab) then
-        return CallProtectedPrevious("GetPrevOwnedSkin", function()
-            return nil
-        end, prefab, cur_skin)
-    end
-
-    local new_skin = nil
-    local skin_list = PREFAB_SKINS[prefab]
-    if skin_list ~= nil then
-        local found = #skin_list + 1
-        if cur_skin ~= nil then
-            for i = #skin_list, 1, -1 do
-                if skin_list[i] == cur_skin then
-                    found = i
-                    break
-                end
-            end
-        end
-        for i = found - 1, 1, -1 do
-            local skinname = skin_list[i]
-            if not PREFAB_SKINS_SHOULD_NOT_SELECT[skinname]
-                and (SKINS_EVENTLOCK[skinname] == nil or IsSpecialEventActive(SKINS_EVENTLOCK[skinname]))
-                and IsSkinSelectableForPlayer(skinname) then
-                new_skin = skinname
-                break
-            end
-        end
-    end
-    if not new_skin and PREFAB_SKINS_SHOULD_NOT_SELECT[prefab] then
-        new_skin = cur_skin
-    end
-    return new_skin
-end
-
 protected_wrappers.ReskinEntity = function(sim, guid, oldskin, newskin, skinid, userid, ...)
-    if TbatIsProtectedSkin(newskin) and not ProtectedServerHasSkin(userid, newskin) then
+    local resolved_userid = ResolveProtectedReskinUserid(guid, userid)
+    if TbatIsProtectedSkin(newskin) and not ProtectedServerHasSkin(resolved_userid, newskin) then
         return false
     end
     return CallProtectedPrevious("ReskinEntity", function()
@@ -862,20 +788,9 @@ local function ApplyProtectedSkinGuards()
         rawset(_G, "ValidateRecipeSkinRequest", protected_wrappers.ValidateRecipeSkinRequest)
     end
 
-    local getnext = rawget(_G, "GetNextOwnedSkin")
-    if getnext ~= nil and getnext ~= protected_wrappers.GetNextOwnedSkin then
-        RememberProtectedBase("GetNextOwnedSkin", getnext)
-        protected_prev.GetNextOwnedSkin = getnext
-        rawset(_G, "GetNextOwnedSkin", protected_wrappers.GetNextOwnedSkin)
-    end
-
-    local getprev = rawget(_G, "GetPrevOwnedSkin")
-    if getprev ~= nil and getprev ~= protected_wrappers.GetPrevOwnedSkin then
-        RememberProtectedBase("GetPrevOwnedSkin", getprev)
-        protected_prev.GetPrevOwnedSkin = getprev
-        rawset(_G, "GetPrevOwnedSkin", protected_wrappers.GetPrevOwnedSkin)
-    end
-
+    -- 故意不接管 GetNextOwnedSkin / GetPrevOwnedSkin。
+    -- 官方实现内部会走 TheInventory:CheckOwnership，而权限皮肤已经在
+    -- CheckOwnership hook 里做了特殊判断，这样可以最大限度继承官方更新。
     if Sim ~= nil and Sim.ReskinEntity ~= protected_wrappers.ReskinEntity then
         RememberProtectedBase("ReskinEntity", Sim.ReskinEntity)
         protected_prev.ReskinEntity = Sim.ReskinEntity
@@ -900,15 +815,11 @@ AddPrefabPostInit("reskin_tool", function(inst)
     end
     spellcaster._tbat_protected_reskin_hooked = true
 
-    local old_can_cast_fn = spellcaster.can_cast_fn
-    spellcaster:SetCanCastFn(function(doer, target, pos, tool)
-        FixProtectedReskinToolCache(tool or inst, doer, target)
-        return old_can_cast_fn ~= nil and old_can_cast_fn(doer, target, pos, tool) or false
-    end)
-
     local old_spell_fn = spellcaster.spell
     spellcaster:SetSpellFn(function(tool, target, pos, caster)
-        FixProtectedReskinToolCache(tool or inst, caster, target)
+        local resolved_target = ResolveReskinToolTarget(target, caster)
+        local userid = (tool and tool.parent and tool.parent.userid) or (caster and caster.userid) or nil
+        RememberProtectedReskinContextForTarget(resolved_target, userid)
         if old_spell_fn ~= nil then
             return old_spell_fn(tool, target, pos, caster)
         end
