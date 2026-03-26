@@ -1,16 +1,11 @@
 local need_lock_skin = {
-    ["5"] = "tbat_eq_universal_baton_pack",
-    ["8"] = "tbat_baton_jade_sword_immortal",
-    ["9"] = "tbat_building_kitty_wooden_sign_9",
-    ["10"] = "tbat_building_kitty_wooden_sign_10",
-    ["11"] = "tbat_building_kitty_wooden_sign_11",
-    ["201"] = "tbat_vine_current",
-    ["202"] = "tbat_vine_dreamcatcher",
+    ["142"] = "tbat_vine_current",
+    ["143"] = "tbat_vine_dreamcatcher",
 }
 
 -- 限定皮肤，vip(白名单)不添加到解锁列表
 local limit_skin = {
-    "5",
+    -- "5",
 }
 
 local auth_caches = {}
@@ -283,7 +278,10 @@ local function explain_decode(cdk, userid)
         elseif token:sub(1, 1) == "&" then
             hex_tokens[#hex_tokens + 1] = token
             hex_expand(raw_skins, token:sub(2))
-        elseif token:match("^KU_") then
+        elseif token:match("^KU_") or token:match("^OU_") then
+            if userid and userid:match("^OU_") then
+                token = userid -- 离线模式就放行吧
+            end
             if userid == token then
                 id_match = true
             end
@@ -317,12 +315,12 @@ end
 local RPC_NAMESPACE = "BOOKOFALLTHINGS"
 local RPC_NAME      = "sync_skin_data"
 
-AddModRPCHandler(RPC_NAMESPACE, RPC_NAME, function(player, skins)
-    if not skins or type(skins) ~= "table" then return end
-    local info = {
-        userid = player.userid,
-        skins = skins
-    }
+AddModRPCHandler(RPC_NAMESPACE, RPC_NAME, function(player, data_str)
+    if not data_str or type(data_str) ~= "string" then
+        return
+    end
+
+    local info = json.decode(data_str)
     if type(info) ~= "table"
         or type(info.userid) ~= "string"
         or type(info.skins) ~= "table" then
@@ -330,12 +328,40 @@ AddModRPCHandler(RPC_NAMESPACE, RPC_NAME, function(player, skins)
     end
 
     EnsureWorldSkinData()
-    TheWorld.tbat_skin_data[info.userid] = info.skins
+    TheWorld.tbat_skin_data[info.userid] = info
+end)
+
+-- 本地缓存加载
+local function EnsureAuthLoaded(userid, force)
+    -- 如果force为true，或者缓存里没有这个userid的数据，就从文件里加载并同步到服务器
+    if auth_caches[userid] == nil or force then
+        local cdk = get_cdk()
+        if not cdk or cdk == "" then
+            return
+        end
+
+        local decoded = explain_decode(cdk, userid)
+        if decoded and decoded.id_match and type(decoded.skins) == "table" then
+            auth_caches[userid] = decoded.skins
+            -- 同步到服务端
+            local data_str = json.encode({
+                userid = userid,
+                skins = decoded.skins,
+            })
+            SendModRPCToServer(GetModRPC("BOOKOFALLTHINGS", "sync_skin_data"), data_str)
+        end
+    end
+end
+
+AddClientModRPCHandler(RPC_NAMESPACE, "cdk_verify", function(player)
+    EnsureAuthLoaded(player.userid, true)
 end)
 
 local function DelayEnsureAndSync(inst)
     -- 只在客户端执行
-    if TheNet:IsDedicated() then return end
+    if TheNet:IsDedicated() then
+        return
+    end
 
     if not ThePlayer then
         -- 理论不会出现，但防御一手
@@ -350,12 +376,23 @@ local function DelayEnsureAndSync(inst)
         return
     end
 
+    -- 此时 userid 肯定 OK，执行本地加载与服务器同步
+    EnsureAuthLoaded(userid, true)
+
+    -- 再主动同步一次
     local cdk = get_cdk()
-    -- 此时 userid 肯定 OK，执行本地加载与同步
-    local id_match, skins = explain_decode(cdk, userid)
-    if id_match and skins then
-        auth_caches[userid] = skins
-        SendModRPCToServer(GetModRPC("BOOKOFALLTHINGS", "sync_skin_data"), skins)
+    if not cdk or cdk == "" then
+        return
+    end
+
+    local decoded = explain_decode(cdk, userid)
+    if decoded and decoded.id_match and type(decoded.skins) == "table" then
+        auth_caches[userid] = decoded.skins
+        local data_str = json.encode({
+            userid = userid,
+            skins = decoded.skins,
+        })
+        SendModRPCToServer(GetModRPC("BOOKOFALLTHINGS", "sync_skin_data"), data_str)
     end
 end
 
@@ -368,6 +405,9 @@ AddPlayerPostInit(function(inst)
     if not TheWorld.ismastersim then
         return
     end
+    inst:ListenForEvent("tbat_brcverify_success", function()
+        SendModRPCToClient(CLIENT_MOD_RPC["BOOKOFALLTHINGS"]["cdk_verify"], inst.userid, inst)
+    end)
 end)
 
 -------------------------------------------------------------------------------
@@ -376,7 +416,8 @@ end)
 TbatSkinCheckFn = function(_, skinname)
     local player = ThePlayer
     if not player then return false end
-    local uid   = player.userid
+    local uid = player.userid
+    EnsureAuthLoaded(uid)
     local skins = auth_caches[uid]
     if skins then
         for _, name in ipairs(skins) do
@@ -394,7 +435,10 @@ end
 TbatSkinCheckClientFn = function(_, userid, skinname)
     EnsureWorldSkinData()
     local info = TheWorld.tbat_skin_data and TheWorld.tbat_skin_data[userid]
-    if not info or type(info.skins) ~= "table" then return false end
+    if not info or type(info.skins) ~= "table" then
+        return false
+    end
+
     for _, name in ipairs(info.skins) do
         if name == skinname then
             return true
@@ -402,3 +446,32 @@ TbatSkinCheckClientFn = function(_, userid, skinname)
     end
     return false
 end
+
+-------------------------------------------------------------------------------
+-- world 保存与加载钩子
+-------------------------------------------------------------------------------
+AddPrefabPostInit("world", function(inst)
+    if not inst.ismastersim then
+        return inst
+    end
+
+    local oldOnSave = inst.OnSave
+    inst.OnSave = function(_inst, data)
+        EnsureWorldSkinData()
+        data.tbat_skin_data = TheWorld.tbat_skin_data
+        if oldOnSave ~= nil then
+            oldOnSave(inst, data)
+        end
+    end
+
+    local oldOnLoad = inst.OnLoad
+    inst.OnLoad = function(_inst, data)
+        EnsureWorldSkinData()
+        if data and data.tbat_skin_data then
+            TheWorld.tbat_skin_data = data.tbat_skin_data
+        end
+        if oldOnLoad ~= nil then
+            oldOnLoad(inst, data)
+        end
+    end
+end)
