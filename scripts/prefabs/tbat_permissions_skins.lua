@@ -150,5 +150,15 @@ BOOKOFALLTHINGS.MakeItemSkin(
         assets = {
             Asset("ANIM", "anim/tbat_meadow_rocking_chair_chnyyy.zip"),
         },
+        init_fn = function(inst, skinname)
+            if inst.back ~= nil then
+                inst.back.AnimState:SetBuild("tbat_meadow_rocking_chair_chnyyy")
+            end
+        end,
+        clear_fn = function(inst, skinname)
+            if inst.back ~= nil then
+                inst.back.AnimState:SetBuild("tbat_meadow_rocking_chair")
+            end
+        end,
     }
 )

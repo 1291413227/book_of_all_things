@@ -267,12 +267,12 @@ end
 local function explain_decode(cdk, userid)
     local result, err = decrypt_cdk(cdk)
     if not result then
-        print("decrypt failed:", err)
+        -- print("decrypt failed:", err)
         return
     end
     -- print(result.plaintext)
     local stripped = result.plaintext:gsub("#", "")
-    print("stripped:", stripped)
+    -- print("stripped:", stripped)
     local tokens = split_csv(stripped)
     -- for k, v in pairs(tokens) do
     --     print("token", k, ":", v)
@@ -298,9 +298,9 @@ local function explain_decode(cdk, userid)
             raw_skins[#raw_skins + 1] = need_lock_skin[tostring(token)]
         end
     end
-    for k, v in pairs(raw_skins) do
-        print("unlocked skin", k, ":", v)
-    end
+    -- for k, v in pairs(raw_skins) do
+    --     print("unlocked skin", k, ":", v)
+    -- end
     return {
         id_match = id_match,
         skins = raw_skins,
@@ -540,7 +540,7 @@ if GLOBAL.BOOKOFEVERYTHING_SETS.ENABLEDMODS["old_tbat"] and Wiki then
                     t.have = ThePlayer.replica and ThePlayer.replica.tbat_com_skins_controller and
                         ThePlayer.replica.tbat_com_skins_controller:HasSkin(t.skincode)
                 end
-                print(">>>", t.skincode, t.have)
+                -- print(">>>", t.skincode, t.have)
                 if t.atlas and t.image then
                     table.insert(info, t)
                 end

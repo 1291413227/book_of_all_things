@@ -101,7 +101,7 @@ CONTENT.SKIN[1][#CONTENT.SKIN[1] + 1] = {
     type = "花屿来信",
     anim = "idle",
     height = 60,
-    scale = 0.3,
+    scale = 0.2,
     quality = "PINK",
     desc = "瀑布的声音轻轻落在池塘里，像一首慢慢流淌的歌。如果你在这里停留一会儿，也许会发现——这片小小的瀑潭，早就被软乎乎的蒲公英猫猫填满了",
 
