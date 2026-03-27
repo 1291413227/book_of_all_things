@@ -190,6 +190,15 @@ local function SalvageFn(inst, doer)
     return true
 end
 
+local function set_container(inst)
+    local num = inst._container:value()
+    if num == 1 then
+        inst.replica.container:WidgetSetup("tbat_spirit_pool_hnct")
+    else
+        inst.replica.container:WidgetSetup("tbat_spirit_pool")
+    end
+end
+
 local function commonfn()
     local inst = CreateEntity()
 
@@ -221,11 +230,16 @@ local function commonfn()
 
     inst:SetDeploySmartRadius(2.5)
 
+    inst._container = net_smallbyte(inst.GUID, "tbat_spirit_pool._container", "tbat_container_change") -- 设置本地参数监听值
+
     inst.entity:SetPristine()
 
     if not TheWorld.ismastersim then
+        inst:ListenForEvent("tbat_container_change", set_container)
         return inst
     end
+
+    inst._container:set(0)
 
     inst:AddComponent("inspectable")
 

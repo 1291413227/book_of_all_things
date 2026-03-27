@@ -54,6 +54,7 @@ Assets = {
     Asset("IMAGE", "minimap/tbat_minimap.tex"),
 
     Asset("ANIM", "anim/ui_tbat_spirit_pool_3x3.zip"),      -- 幻灵水池UI动画
+    Asset("ANIM", "anim/ui_tbat_spirit_pool_hnct_3x3.zip"), -- 幻灵水池皮肤UI动画
     Asset("ANIM", "anim/ui_tbat_rose_twin_goose_12x5.zip"), -- 玫瑰双生鹅UI动画
     Asset("ANIM", "anim/ui_tbat_pet_washer_6x3.zip"),       -- 萌宠洗衣机UI动画
 }

@@ -6,6 +6,7 @@ local params = {}
 local showmeneed = {
     "tbat_spirit_pool",
     "tbat_pet_washer",
+    "tbat_spirit_pool_hnct",
 }
 
 -- ================================
@@ -62,6 +63,67 @@ function params.tbat_spirit_pool.itemtestfn(container, item, slot)
 end
 
 function params.tbat_spirit_pool.widget.buttoninfo.fn(inst, doer)
+    if inst.components.container ~= nil then
+        BufferedAction(doer, inst, ACTIONS.RUMMAGE):Do()
+    elseif inst.replica.container ~= nil and not inst.replica.container:IsBusy() then
+        SendModRPCToServer(MOD_RPC.BOOKOFALLTHINGS.Closecontainer, inst)
+    end
+end
+
+-- ================================
+--[[注册容器:幻灵水池-欢闹池塘]]
+-- ================================
+params.tbat_spirit_pool_hnct =
+{
+    widget =
+    {
+        slotpos = {
+            Vector3(-72, 45, 0),
+            Vector3(0, 45, 0),
+            Vector3(72, 45, 0),
+            Vector3(-72, -27, 0),
+            Vector3(0, -27, 0),
+            Vector3(72, -27, 0),
+            Vector3(-72, -99, 0),
+            Vector3(0, -99, 0),
+            Vector3(72, -99, 0),
+        },
+        slotbg =
+        {
+            { image = "pool_skin1_slot_fish.tex", atlas = "images/tbat_hud.xml" },
+            { image = "pool_skin1_slot_fish.tex", atlas = "images/tbat_hud.xml" },
+            { image = "pool_skin1_slot_fish.tex", atlas = "images/tbat_hud.xml" },
+            { image = "pool_skin1_slot_fish.tex", atlas = "images/tbat_hud.xml" },
+            { image = "pool_skin1_slot_bait.tex", atlas = "images/tbat_hud.xml" },
+            { image = "pool_skin1_slot_fish.tex", atlas = "images/tbat_hud.xml" },
+            { image = "pool_skin1_slot_fish.tex", atlas = "images/tbat_hud.xml" },
+            { image = "pool_skin1_slot_fish.tex", atlas = "images/tbat_hud.xml" },
+            { image = "pool_skin1_slot_fish.tex", atlas = "images/tbat_hud.xml" },
+        },
+        animbank = "ui_tbat_spirit_pool_hnct_3x3",
+        animbuild = "ui_tbat_spirit_pool_hnct_3x3",
+        pos = Vector3(0, 200, 0), -- 容器默认坐标
+        side_align_tip = 160,
+        buttoninfo =
+        {
+            atlas = "images/tbat_hud.xml",
+            normal = "spirit_pool_skin1_close_button.tex",
+            focus = "spirit_pool_skin1_close_button.tex",
+            disabled = "spirit_pool_skin1_close_button.tex",
+            position = Vector3(189, 179, 0),
+        },
+    },
+    type = "chest", -- 容器类型,可以自定义,不同的容器类型可以同时打开
+    usespecificslotsforitems = true,
+}
+
+function params.tbat_spirit_pool_hnct.itemtestfn(container, item, slot)
+    return (slot ~= 5 and (item:HasTag("smalloceancreature") or item:HasTag("fish"))) or
+        (slot == 5 and item:HasTag("tbat_reef_conch")) or
+        (slot == nil and (item:HasTag("smalloceancreature") or item:HasTag("tbat_reef_conch") or item:HasTag("fish")))
+end
+
+function params.tbat_spirit_pool_hnct.widget.buttoninfo.fn(inst, doer)
     if inst.components.container ~= nil then
         BufferedAction(doer, inst, ACTIONS.RUMMAGE):Do()
     elseif inst.replica.container ~= nil and not inst.replica.container:IsBusy() then

@@ -1,8 +1,9 @@
 local CONTENT = require "widgets/atbook_wikiwidget_defs"
+
 CONTENT.SKIN[3][#CONTENT.SKIN[3] + 1] = {
     skincode = "tbat_vine_current",
     name = "洋流绳索",
-    type = "",
+    type = "微光浅影",
     anim = "idle",
     height = 10,
     scale = 0.1,
@@ -17,10 +18,11 @@ CONTENT.SKIN[3][#CONTENT.SKIN[3] + 1] = {
     build = "tbat_vine_current",
     prefabname = STRINGS.NAMES.TBAT_VINE_ROSE,
 }
+
 CONTENT.SKIN[3][#CONTENT.SKIN[3] + 1] = {
     skincode = "tbat_vine_dreamcatcher",
     name = "捕梦花绳",
-    type = "",
+    type = "微光浅影",
     anim = "idle",
     height = 10,
     scale = 0.1,

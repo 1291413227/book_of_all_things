@@ -12,7 +12,8 @@ for i, v in ipairs(vine_skins) do
         {
             name = STRINGS.TBAT_STRINGS["TBAT_VINE_" .. string.upper(v) .. "_NAME"],
             des = "None",
-            rarity = "Spiffy",
+            rarity = "tbat_purple",
+            raritycorlor = { 238 / 255, 130 / 255, 238 / 255, 1 }, -- purple
             atlas = "images/tbat_inventoryimages.xml",
             image = "tbat_vine_" .. v,
             build = "tbat_vine_" .. v,
@@ -37,7 +38,7 @@ BOOKOFALLTHINGS.MakeItemSkin(
         name = STRINGS.TBAT_STRINGS.TBAT_DREAMSEA_CORAL_HHLY_NAME,
         des = "None",
         rarity = "tbat_purple",
-        raritycorlor = {238 / 255, 130 / 255, 238 / 255, 1},    -- purple
+        raritycorlor = { 238 / 255, 130 / 255, 238 / 255, 1 }, -- purple
         atlas = "images/tbat_inventoryimages.xml",
         image = "tbat_dreamsea_coral_hhly",
         build = "tbat_dreamsea_coral_hhly",
@@ -59,7 +60,7 @@ BOOKOFALLTHINGS.MakeItemSkin(
         name = STRINGS.TBAT_STRINGS.TBAT_DREAMSEA_CORAL_HHXB_NAME,
         des = "None",
         rarity = "tbat_purple",
-        raritycorlor = {238 / 255, 130 / 255, 238 / 255, 1},    -- purple
+        raritycorlor = { 238 / 255, 130 / 255, 238 / 255, 1 }, -- purple
         atlas = "images/tbat_inventoryimages.xml",
         image = "tbat_dreamsea_coral_hhxb",
         build = "tbat_dreamsea_coral_hhxb",
@@ -81,7 +82,7 @@ BOOKOFALLTHINGS.MakeItemSkin(
         name = STRINGS.TBAT_STRINGS.TBAT_DREAMWEAVER_PEACHCLOUD_TREE_TFZLT_NAME,
         des = "None",
         rarity = "tbat_pink",
-        raritycorlor = {255 / 255, 192 / 255, 203 / 255, 1},    -- pink
+        raritycorlor = { 255 / 255, 192 / 255, 203 / 255, 1 }, -- pink
         atlas = "images/tbat_inventoryimages.xml",
         image = "tbat_dreamweaver_peachcloud_tree_tfzlt",
         build = "tbat_dreamweaver_peachcloud_tree_tfzlt",
@@ -103,7 +104,7 @@ BOOKOFALLTHINGS.MakeItemSkin(
         name = STRINGS.TBAT_STRINGS.TBAT_SPIRIT_POOL_HNCT_NAME,
         des = "None",
         rarity = "tbat_pink",
-        raritycorlor = {255 / 255, 192 / 255, 203 / 255, 1},    -- pink
+        raritycorlor = { 255 / 255, 192 / 255, 203 / 255, 1 }, -- pink
         atlas = "images/tbat_inventoryimages.xml",
         image = "tbat_spirit_pool_hnct",
         build = "tbat_spirit_pool_hnct",
@@ -113,6 +114,20 @@ BOOKOFALLTHINGS.MakeItemSkin(
         assets = {
             Asset("ANIM", "anim/tbat_spirit_pool_hnct.zip"),
         },
+        init_fn = function(inst, skinname)
+            if inst.components.container then
+                inst.components.container:Close()
+                inst._container:set(1)
+                inst.components.container:WidgetSetup("tbat_spirit_pool_hnct")
+            end
+        end,
+        clear_fn = function(inst, skinname)
+            if inst.components.container then
+                inst.components.container:Close()
+                inst._container:set(0)
+                inst.components.container:WidgetSetup("tbat_spirit_pool")
+            end
+        end,
     }
 )
 
@@ -125,7 +140,7 @@ BOOKOFALLTHINGS.MakeItemSkin(
         name = STRINGS.TBAT_STRINGS.TBAT_MEADOW_ROCKING_CHAIR_CHNYYY_NAME,
         des = "None",
         rarity = "tbat_purple",
-        raritycorlor = {238 / 255, 130 / 255, 238 / 255, 1},    -- purple
+        raritycorlor = { 238 / 255, 130 / 255, 238 / 255, 1 }, -- purple
         atlas = "images/tbat_inventoryimages.xml",
         image = "tbat_meadow_rocking_chair_chnyyy",
         build = "tbat_meadow_rocking_chair_chnyyy",

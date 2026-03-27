@@ -1,3 +1,11 @@
+-- 测试用
+local tbat_rose_twin_goose_give_item = nil
+if GLOBAL.BOOKOFEVERYTHING_SETS.ENABLEDMODS["old_tbat"] then
+    tbat_rose_twin_goose_give_item = "tbat_food_valorbush"
+else
+    tbat_rose_twin_goose_give_item = "petals"
+end
+
 -- =======================================
 --[[ 动作定义 ]]
 -- =======================================
@@ -159,7 +167,7 @@ AddComponentAction("INVENTORY", "container_proxy", function(inst, doer, _actions
     end
 end)
 AddComponentAction("USEITEM", "inventoryitem", function(inst, doer, target, _actions, right)
-    if inst.prefab == "tbat_food_valorbush" and target:HasTag("tbat_rose_twin_goose") and not target:HasTag("tbat_rose_twin_goose_2") then
+    if inst.prefab == tbat_rose_twin_goose_give_item and target:HasTag("tbat_rose_twin_goose") and not target:HasTag("tbat_rose_twin_goose_2") then
         table.insert(_actions, ACTIONS.TBAT_GOOSE_GIVE)
     end
     if inst:HasTag("tbat_note") and target.prefab == "tbat_npc_emerald_feather_bird" then

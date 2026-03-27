@@ -485,8 +485,9 @@ if GLOBAL.BOOKOFEVERYTHING_SETS.ENABLEDMODS["old_tbat"] then
             inst.components.lootdropper:AddChanceLoot("tbat_reef_conch", 1)
             inst.components.lootdropper:AddChanceLoot("tbat_reef_conch", 1)
             inst.components.lootdropper:AddChanceLoot("tbat_reef_conch", 1)
-            inst.components.lootdropper:AddChanceLoot("tbat_reef_conch", 0.5)
-            inst.components.lootdropper:AddChanceLoot("tbat_reef_conch", 0.5)
+            inst.components.lootdropper:AddChanceLoot("tbat_reef_conch", 1)
+            inst.components.lootdropper:AddChanceLoot("tbat_reef_conch", 1)
+            inst.components.lootdropper:AddChanceLoot("tbat_reef_conch", 1)
         end
     end)
 
