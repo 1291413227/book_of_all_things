@@ -1,6 +1,11 @@
 local need_lock_skin = {
     ["142"] = "tbat_vine_current",
     ["143"] = "tbat_vine_dreamcatcher",
+    ["192"] = "tbat_dreamsea_coral_hhly",
+    ["193"] = "tbat_dreamsea_coral_hhxb",
+    ["194"] = "tbat_dreamweaver_peachcloud_tree_tfzlt",
+    ["195"] = "tbat_spirit_pool_hnct",
+    ["196"] = "tbat_meadow_rocking_chair_chnyyy",
 }
 
 -- 限定皮肤，vip(白名单)不添加到解锁列表

@@ -22,7 +22,7 @@ AddRecipe2(
     TECH.SCIENCE_TWO,
     {
         placer = "tbat_spirit_pool_placer", -- 建造预览
-        min_spacing = 0,                    -- 放置间隔
+        min_spacing = 0.5,                  -- 放置间隔
     },
     {
         "STRUCTURES", -- 建筑分类
@@ -37,7 +37,7 @@ AddRecipe2(
     TECH.SCIENCE_TWO,
     {
         placer = "tbat_meadow_rocking_chair_placer",
-        min_spacing = 0,
+        min_spacing = 0.5,
     },
     {
         "STRUCTURES",
@@ -90,7 +90,7 @@ AddRecipe2(
     TECH.SCIENCE_TWO,
     {
         placer = "tbat_dreamweaver_peachcloud_tree_placer",
-        min_spacing = 0,
+        min_spacing = 0.5,
     },
     {
         "STRUCTURES",
@@ -105,7 +105,7 @@ AddRecipe2(
     TECH.SCIENCE_TWO,
     {
         placer = "tbat_moonlit_memory_crystal_spring_placer",
-        min_spacing = 0,
+        min_spacing = 0.5,
     },
     {
         "STRUCTURES",
@@ -121,7 +121,7 @@ AddRecipe2(
     TECH.SCIENCE_TWO,
     {
         placer = "tbat_vine_rose_placer",
-        min_spacing = 0,
+        min_spacing = 0.5,
     },
     {
         "STRUCTURES",
@@ -137,7 +137,7 @@ AddRecipe2(
     TECH.SCIENCE_TWO,
     {
         placer = "tbat_dreamsea_coral_placer",
-        min_spacing = 0,
+        min_spacing = 0.5,
     },
     {
         "STRUCTURES",
@@ -213,7 +213,7 @@ AddRecipe2(
     TECH.SCIENCE_TWO,
     {
         placer = "tbat_rose_twin_goose_placer",
-        min_spacing = 0,
+        min_spacing = 0.5,
         testfn = CanPlaceRoseTwinGoose,
     },
     {
@@ -245,7 +245,7 @@ AddRecipe2(
     TECH.SCIENCE_TWO,
     {
         placer = "tbat_pet_washer_placer",
-        min_spacing = 0,
+        min_spacing = 0.5,
     },
     {
         "STRUCTURES",

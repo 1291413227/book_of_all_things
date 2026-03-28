@@ -26,7 +26,7 @@ AddRecipe2(
     TECH.TBAT_THE_TREE_OF_ALL_THINGS_ONE,
     {
         placer = "tbat_spirit_pool_placer", -- 建造预览
-        min_spacing = 0,                    -- 放置间隔
+        min_spacing = 0.5,                  -- 放置间隔
     },
     {
         "TBAT_RECIPE_FILTER_BUILDING", -- 模组建筑分类
@@ -43,7 +43,7 @@ AddRecipe2(
     TECH.TBAT_THE_TREE_OF_ALL_THINGS_ONE,
     {
         placer = "tbat_meadow_rocking_chair_placer",
-        min_spacing = 0,
+        min_spacing = 0.5,
     },
     {
         "TBAT_RECIPE_FILTER_DECORATION",
@@ -96,7 +96,7 @@ AddRecipe2(
     TECH.TBAT_THE_TREE_OF_ALL_THINGS_ONE,
     {
         placer = "tbat_dreamweaver_peachcloud_tree_placer",
-        min_spacing = 0,
+        min_spacing = 0.5,
     },
     {
         "TBAT_RECIPE_FILTER_DECORATION",
@@ -114,7 +114,7 @@ AddRecipe2(
     TECH.TBAT_THE_TREE_OF_ALL_THINGS_ONE,
     {
         placer = "tbat_moonlit_memory_crystal_spring_placer",
-        min_spacing = 0,
+        min_spacing = 0.5,
     },
     {
         "TBAT_RECIPE_FILTER_DECORATION",
@@ -130,7 +130,7 @@ AddRecipe2(
     TECH.TBAT_THE_TREE_OF_ALL_THINGS_ONE,
     {
         placer = "tbat_vine_rose_placer",
-        min_spacing = 0,
+        min_spacing = 0.5,
     },
     {
         "TBAT_RECIPE_FILTER_DECORATION",
@@ -146,7 +146,7 @@ AddRecipe2(
     TECH.TBAT_THE_TREE_OF_ALL_THINGS_ONE,
     {
         placer = "tbat_dreamsea_coral_placer",
-        min_spacing = 0,
+        min_spacing = 0.5,
     },
     {
         "TBAT_RECIPE_FILTER_DECORATION",
@@ -228,7 +228,7 @@ AddRecipe2(
     TECH.TBAT_THE_TREE_OF_ALL_THINGS_ONE,
     {
         placer = "tbat_rose_twin_goose_placer",
-        min_spacing = 0,
+        min_spacing = 0.5,
         testfn = CanPlaceRoseTwinGoose,
     },
     {
@@ -262,7 +262,7 @@ AddRecipe2(
     TECH.TBAT_THE_TREE_OF_ALL_THINGS_ONE,
     {
         placer = "tbat_pet_washer_placer",
-        min_spacing = 0,
+        min_spacing = 0.5,
     },
     {
         "TBAT_RECIPE_FILTER_BUILDING",

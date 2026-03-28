@@ -48,6 +48,8 @@ BOOKOFALLTHINGS.MakeItemSkin(
         assets = {
             Asset("ANIM", "anim/tbat_dreamsea_coral_hhly.zip"),
         },
+        checkfn = BOOKOFALLTHINGS.TbatSkinCheckFn,
+        checkclientfn = BOOKOFALLTHINGS.TbatSkinCheckClientFn,
     }
 )
 
@@ -70,6 +72,8 @@ BOOKOFALLTHINGS.MakeItemSkin(
         assets = {
             Asset("ANIM", "anim/tbat_dreamsea_coral_hhxb.zip"),
         },
+        checkfn = BOOKOFALLTHINGS.TbatSkinCheckFn,
+        checkclientfn = BOOKOFALLTHINGS.TbatSkinCheckClientFn,
     }
 )
 
@@ -92,6 +96,8 @@ BOOKOFALLTHINGS.MakeItemSkin(
         assets = {
             Asset("ANIM", "anim/tbat_dreamweaver_peachcloud_tree_tfzlt.zip"),
         },
+        checkfn = BOOKOFALLTHINGS.TbatSkinCheckFn,
+        checkclientfn = BOOKOFALLTHINGS.TbatSkinCheckClientFn,
     }
 )
 
@@ -128,6 +134,8 @@ BOOKOFALLTHINGS.MakeItemSkin(
                 inst.components.container:WidgetSetup("tbat_spirit_pool")
             end
         end,
+        checkfn = BOOKOFALLTHINGS.TbatSkinCheckFn,
+        checkclientfn = BOOKOFALLTHINGS.TbatSkinCheckClientFn,
     }
 )
 
@@ -160,5 +168,7 @@ BOOKOFALLTHINGS.MakeItemSkin(
                 inst.back.AnimState:SetBuild("tbat_meadow_rocking_chair")
             end
         end,
+        checkfn = BOOKOFALLTHINGS.TbatSkinCheckFn,
+        checkclientfn = BOOKOFALLTHINGS.TbatSkinCheckClientFn,
     }
 )
