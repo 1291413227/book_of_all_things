@@ -46,11 +46,12 @@ end
 
 -- TBAT_TWIN_GOOSE_TECH_ONE 可以改成任意的名字,这里和 TECH.TBAT_TWIN_GOOSE_TECH_ONE 名字相同只是懒得改了
 TUNING.PROTOTYPER_TREES.TBAT_TWIN_GOOSE_TECH_ONE = TechTree.Create({
-    -- 双生鹅科技
-    TBAT_TWIN_GOOSE_TECH = 1,
-    -- 土地夯实器科技
     TURFCRAFTING = 2,
     MASHTURFCRAFTING = 2,
+    CARPENTRY = 3,
+    -- SCIENCE = 2,
+    -- -- 双生鹅科技
+    TBAT_TWIN_GOOSE_TECH = 1,
     -- 活动科技
     PERDOFFERING = 3,
     WARGOFFERING = 3,
@@ -65,8 +66,6 @@ TUNING.PROTOTYPER_TREES.TBAT_TWIN_GOOSE_TECH_ONE = TechTree.Create({
     -- MADSCIENCE = 1,
     CARNIVAL_PRIZESHOP = 1,
     CARNIVAL_HOSTSHOP = 3,
-    CARPENTRY = 3,
-    SCIENCE = 10
 })
 
 --------------------------------------------------------------------------
