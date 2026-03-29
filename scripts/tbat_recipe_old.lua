@@ -32,6 +32,7 @@ AddRecipe2(
         "TBAT_RECIPE_FILTER_BUILDING", -- 模组建筑分类
     }
 )
+RemoveRecipeFromFilter("tbat_spirit_pool", "MODS")
 
 -- 绿野摇摇椅
 AddRecipe2(
@@ -49,6 +50,7 @@ AddRecipe2(
         "TBAT_RECIPE_FILTER_DECORATION",
     }
 )
+RemoveRecipeFromFilter("tbat_meadow_rocking_chair", "MODS")
 
 -- 小径石板
 AddRecipe2(
@@ -62,6 +64,7 @@ AddRecipe2(
         "TBAT_RECIPE_FILTER_DECORATION",
     }
 )
+RemoveRecipeFromFilter("tbat_pathway_slab_item", "MODS")
 
 -- 暖蔷篱笆栅栏
 AddRecipe2(
@@ -75,6 +78,7 @@ AddRecipe2(
         "TBAT_RECIPE_FILTER_DECORATION",
     }
 )
+RemoveRecipeFromFilter("tbat_cozy_rosebush_fence_item", "MODS")
 
 -- 玫瑰木架栅栏
 AddRecipe2(
@@ -88,6 +92,7 @@ AddRecipe2(
         "TBAT_RECIPE_FILTER_DECORATION",
     }
 )
+RemoveRecipeFromFilter("tbat_rose_trellis_fence_item", "MODS")
 
 -- 织梦桃云树
 AddRecipe2(
@@ -102,6 +107,7 @@ AddRecipe2(
         "TBAT_RECIPE_FILTER_DECORATION",
     }
 )
+RemoveRecipeFromFilter("tbat_dreamweaver_peachcloud_tree", "MODS")
 
 -- 月光记忆晶泉
 AddRecipe2(
@@ -120,6 +126,7 @@ AddRecipe2(
         "TBAT_RECIPE_FILTER_DECORATION",
     }
 )
+RemoveRecipeFromFilter("tbat_moonlit_memory_crystal_spring", "MODS")
 
 -- 晓光玫瑰藤蔓
 AddRecipe2(
@@ -136,6 +143,7 @@ AddRecipe2(
         "TBAT_RECIPE_FILTER_DECORATION",
     }
 )
+RemoveRecipeFromFilter("tbat_vine_rose", "MODS")
 
 -- 幻海珊瑚
 AddRecipe2(
@@ -152,6 +160,7 @@ AddRecipe2(
         "TBAT_RECIPE_FILTER_DECORATION",
     }
 )
+RemoveRecipeFromFilter("tbat_dreamsea_coral", "MODS")
 
 -- 浮梦落雪地皮
 AddRecipe2(
@@ -168,6 +177,7 @@ AddRecipe2(
         "TBAT_RECIPE_FILTER_DECORATION",
     }
 )
+RemoveRecipeFromFilter("turf_tbat_snowfall", "MODS")
 
 -- 幻彩云间地皮
 AddRecipe2(
@@ -184,6 +194,7 @@ AddRecipe2(
         "TBAT_RECIPE_FILTER_DECORATION",
     }
 )
+RemoveRecipeFromFilter("turf_tbat_cloud", "MODS")
 
 -- 灵蝶幻境地皮
 AddRecipe2(
@@ -200,6 +211,7 @@ AddRecipe2(
         "TBAT_RECIPE_FILTER_DECORATION",
     }
 )
+RemoveRecipeFromFilter("turf_tbat_psylocke", "MODS")
 
 -- 绿野森林地皮
 AddRecipe2(
@@ -216,6 +228,7 @@ AddRecipe2(
         "TBAT_RECIPE_FILTER_DECORATION",
     }
 )
+RemoveRecipeFromFilter("turf_tbat_forest", "MODS")
 
 -- 玫瑰双生鹅
 AddRecipe2(
@@ -235,6 +248,7 @@ AddRecipe2(
         "TBAT_RECIPE_FILTER_BUILDING",
     }
 )
+RemoveRecipeFromFilter("tbat_rose_twin_goose", "MODS")
 
 -- 玫瑰小鹅蛋
 AddRecipe2(
@@ -250,6 +264,7 @@ AddRecipe2(
         "TBAT_RECIPE_FILTER_ITEM",
     }
 )
+RemoveRecipeFromFilter("tbat_rose_goose_egg", "MODS")
 
 -- 萌宠洗衣机
 AddRecipe2(
@@ -268,3 +283,4 @@ AddRecipe2(
         "TBAT_RECIPE_FILTER_BUILDING",
     }
 )
+RemoveRecipeFromFilter("tbat_pet_washer", "MODS")
