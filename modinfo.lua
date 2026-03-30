@@ -29,19 +29,6 @@ api_version = 10
 -- 优先级，值越大越先加载 默认0
 priority = -999
 
-local plat = folder_name and
-    ((folder_name:match("1") and 1) or
-        (folder_name:match("^book_of_all_things") and -1)) or 0
-if plat == 1 then
-    mod_dependencies = { { workshop = "workshop-3544387985" } }
-elseif plat == -1 then
-    name = name .. " Dev"
-    version = version .. "-dev"
-    description = '当前版本：' .. version
-elseif plat == 0 then
-    mod_dependencies = { { workshop = "workshop-3544387985" } }
-end
-
 -- 配置项大标题,该函数受勋章模组代码启发,视觉上直观很多
 local function Headline(name)
     return
